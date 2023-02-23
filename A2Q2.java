@@ -1,10 +1,12 @@
+package A2;
+
 /**
  * EECS 2011 Z, Winter 2023.
  * Assignment 2, Question 2 starter code.
  * Please read carefully the instructions in the assignment handout
  * and the starter code.
+ * Colin Le Donne
  */
-package A2;
 // Do NOT change the package!
 
 import java.util.ArrayList;
@@ -47,9 +49,21 @@ public class A2Q2 {
      * - n > 0
      */
     public static ArrayList<Move> threePegTOH(int n) {
+        ArrayList<Move> moves = new ArrayList<>();
+        ThreeTOHHelper(n,1,2,3, moves ); // pegs are 1 2 and 3
+        return moves;
 
-        // TODO: Complete this method
-        return null; // Placeholder return statement. Should be changed when the method is implemented..
+    }
+    // recursive method
+    public static void ThreeTOHHelper (int n, int from, int to, int extra, ArrayList<Move> moves){
+        if (n == 1){
+            moves.add(new Move(from, to));
+        }
+        else{
+            ThreeTOHHelper(n - 1,from, extra, to, moves);
+            moves.add(new Move(from,to)); // add a new move
+            ThreeTOHHelper(n-1, extra, to , from, moves);
+        }
     }
 
     /**
@@ -62,14 +76,28 @@ public class A2Q2 {
      * - n > 0
      */
     public static ArrayList<Move> fourPegTOH(int n) {
+        ArrayList<Move> moves = new ArrayList<>();
+        FourTOHHelper(n,1,2,3, 4 ,moves );
+        return moves;
 
-        // TODO: Complete this method
-        return null; // Placeholder return statement. Should be changed when the method is implemented..
     }
+    public static void FourTOHHelper (int n, int from, int to, int extra1, int extra2, ArrayList<Move> moves){
+        int k = 1;
+        if(n == 1){
+            moves.add(new Move(from,to));
+        }
+        else{
+            FourTOHHelper(n-k, from, extra2, to, extra1, moves);
+            FourTOHHelper(k, from, to, extra1, extra2, moves);
+            FourTOHHelper(n-k, extra2, to, from, extra1, moves);
 
+        }
+
+    }
     public static void main(String[] args) {
-
-        System.out.println(threePegTOH(3));
-        System.out.println(fourPegTOH(3));
+        System.out.println(threePegTOH(3).size());
+        System.out.println(threePegTOH(5).size());
+        System.out.println(fourPegTOH(3).size());
+        System.out.println(fourPegTOH(5).size());
     }
 }
